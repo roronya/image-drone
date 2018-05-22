@@ -1,0 +1,27 @@
+# see "https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository".
+- name: Install packages to allow apt to use a repository over HTTPS.
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add Dockers's official GPG key.
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: Verify key.
+  shell: apt-key fingerprint 0EBFCD88
+
+- name: add repository.
+  shell: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable test edge"
+
+- name:
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: yes
+

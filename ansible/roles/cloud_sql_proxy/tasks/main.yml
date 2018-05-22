@@ -1,0 +1,8 @@
+- name: Prepare the image of cloud_sql_proxy
+  shell: "docker pull gcr.io/cloudsql-docker/gce-proxy:1.11"
+
+- name: Create directory for socket
+  file:
+    dest: /cloudsql
+    state: directory
+    mode: 777

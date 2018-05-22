@@ -1,0 +1,11 @@
+- hosts: all
+  become: yes
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2'
+      raw: apt install -y python python-simplejson
+  roles:
+    - docker
+    - docker-compose
+    - drone
+    - supervisor

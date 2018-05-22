@@ -1,0 +1,27 @@
+- name: Install supervisor
+  apt:
+    name: supervisor
+    state: latest
+    update_cache: yes
+
+- name: Deploy supervisor conf
+  template:
+    src: drone.supervisord.conf.j2
+    dest: /etc/supervisor/conf.d/drone.conf
+    mode: 644
+
+- name: Reload supervisor
+  service:
+    name: supervisor
+    state: restarted
+    sleep: 20
+
+- name: Register it
+  supervisorctl:
+    name: drone
+    state: present
+
+- name: Start it
+  supervisorctl:
+    name: drone
+    state: started

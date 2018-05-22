@@ -1,0 +1,7 @@
+[program:drone]
+command=/usr/bin/docker-compose -f /opt/drone/docker-compose.yml up
+user=root
+autorestart=true
+stderr_logfile=/var/log/supervisor/drone-stderr.log
+stdout_logfile=/var/log/supervisor/drone-stdout.log
+

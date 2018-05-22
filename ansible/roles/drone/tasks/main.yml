@@ -1,0 +1,11 @@
+- name: Create home directory
+  file:
+    path: /opt/drone
+    state: directory
+    mode: 0755
+
+- name: "Set docker-compose.yml"
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/drone/docker-compose.yml
+    mode: 0644

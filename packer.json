@@ -1,0 +1,42 @@
+{
+  "variables": {
+    "env": "{{env `ENV`}}",
+    "google_project": "{{env `GOOGLE_PROJECT`}}",
+    "drone_secret" : "{{env `DRONE_SECRET`}}",
+    "drone_host" : "{{env `DRONE_HOST`}}",
+    "drone_db_user" : "{{env `DRONE_DB_USER`}}",
+    "drone_db_pass" : "{{env `DRONE_DB_PASS`}}",
+    "drone_db_connection_name" : "{{env `DRONE_DB_CONNECTION_NAME`}}",
+    "drone_db_name" : "{{env `DRONE_DB_NAME`}}",
+    "drone_github_client" : "{{env `DRONE_GITHUB_CLIENT`}}",
+    "drone_github_secret" : "{{env `DRONE_GITHUB_SECRET`}}",
+    "revision": "{{env `REVISION`}}"
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "account.json",
+      "project_id": "roronya-{{user `env`}}",
+      "source_image_family": "ubuntu-1804-lts",
+      "ssh_username": "packer",
+      "zone": "asia-northeast1-a",
+      "image_name": "drone-{{user `revision`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "ansible/playbook.yml",
+      "extra_arguments": [
+        "--extra-vars", "drone_secret={{user `drone_secret`}}",
+        "--extra-vars", "drone_host={{user `drone_host`}}",
+        "--extra-vars", "drone_db_user={{user `drone_db_user`}}",
+        "--extra-vars", "drone_db_pass={{user `drone_db_pass`}}",
+        "--extra-vars", "drone_db_connection_name={{user `drone_db_connection_name`}}",
+        "--extra-vars", "drone_db_name={{user `drone_db_name`}}",
+        "--extra-vars", "drone_github_client={{user `drone_github_client`}}",
+        "--extra-vars", "drone_github_secret={{user `drone_github_secret`}}"
+      ]
+    }
+  ]
+}
